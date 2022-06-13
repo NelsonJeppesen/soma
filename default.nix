@@ -8,7 +8,6 @@ stdenv.mkDerivation rec {
     pkgs.bash
     pkgs.curl
     pkgs.fzf
-    pkgs.gawk
     pkgs.jq
     pkgs.mpv
   ];
@@ -28,7 +27,6 @@ stdenv.mkDerivation rec {
       bash
       curl
       fzf
-      gawk
       jq
       mpv
     ]}
