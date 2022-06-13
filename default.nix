@@ -6,7 +6,6 @@ stdenv.mkDerivation rec {
   buildInputs = [
     pkgs.makeWrapper
     pkgs.bash
-    pkgs.coreutils
     pkgs.curl
     pkgs.fzf
     pkgs.gawk
@@ -32,7 +31,6 @@ stdenv.mkDerivation rec {
       gawk
       jq
       mpv
-      coreutils
     ]}
   '';
 }
