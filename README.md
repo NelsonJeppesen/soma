@@ -1,7 +1,7 @@
 # soma <sub><sup><sub><sup>| Listen to [SomaFM](https://somafm.com/) in your terminal</sup></sub></sup></sub>
 > **soma** is a fork of [somafm-cli](https://github.com/rockymadden/somafm-cli)
 
-### simple, fast channel fuzzy search
+### simple, fast with fuzzy search
 
 ![img](./img/1.gif)
 
@@ -31,6 +31,33 @@ c to change channel
 [soma] Groove Salad Classic: The early days of a nicely chilled plate of ambientbeats and grooves. [SomaFM]
 [soma] Ambient Chill
 [soma] Global Communication - Alpha Phase
+```
+
+#### listen to *Deep Space One* then switch channels twice
+```console
+$ soma deep space
+.soma-wrapped
+―――――――――――――――――――
+q to quit
+c to change channel
+―――――――――――――――――――
+[soma] Deep Space One: Deep ambient electronic and space music. [SomaFM]
+[soma] Ambient Space
+[soma] brock van wey - `white clouds drift on and on` [intrusion shape I]
+―――――――――――――――――――
+[soma] Space Station Soma from SomaFM.com [SomaFM]
+[soma] Ambient Space
+[soma] Banco De Gaia - All Sleeping (Desert Dwellers Remix)
+[soma] Project Midivil - Landing On My Space Station
+[soma] Jesus Mora - Delirio Onrico
+―――――――――――――――――――
+[soma] Drone Zone [SomaFM]
+[soma] Ambient Space
+[soma] Steve Roach & Loren Nerell - Texture Wall
+[soma] Steve Brand - Not From Here
+[soma] Solaris - Composite Atmosphere
+[soma] David C Hughes - Listening to Her Breathe
+[soma] the.synthetic.awakening - Vision 3
 ```
 
 ## nix install
