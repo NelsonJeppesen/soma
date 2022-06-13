@@ -1,6 +1,5 @@
 name: "soma-tests"
 on:
-  pull_request:
   push:
 jobs:
   soma-test:
