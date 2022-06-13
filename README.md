@@ -1,41 +1,49 @@
 # soma <sub><sup><sub><sup>| Listen to [SomaFM](https://somafm.com/) in your terminal</sup></sub></sup></sub>
 > **soma** is a fork of [somafm-cli](https://github.com/rockymadden/somafm-cli)
 
-### simple, fast channel fuzzy search with style
+### simple, fast channel fuzzy search
 
-![img](./img/simple.png)
+![img](./img/1.gif)
 
-### in action
+### search with menu and switch channels
 
-![img](./img/rec.gif)
+![img](./img/2.gif)
 
-### quick start
-#### run `soma` without options to list all channels
-type to search and/or select with arrow keys
-
-## Use
-### Listen to Groove Salad:
+## usage
+#### list all channels 
 ```console
-$ soma groovesalad
-22:27:30 | Mindex - Jagga-jah
+$ soma
 ```
 
-#### run `soma <some search>` to filter
-if a single station matches it will be started automatically
-type to search and/or select with arrow keys
-
-
-## build
-### source using `nix`
+#### show channels with space in the name
 ```console
-$ git clone git@github.com:NelsonJeppesen/somafm-cli-ng.git
-$ cd somafm-cli-ng
+$ soma space
 ```
 
-## Use
+#### listen to *Groove Salad Classic*
+```console
+$ soma groove salad classic
+.soma-wrapped
+―――――――――――――――――――
+q to quit
+c to change channel
+―――――――――――――――――――
+[soma] Groove Salad Classic: The early days of a nicely chilled plate of ambientbeats and grooves. [SomaFM]
+[soma] Ambient Chill
+[soma] Global Communication - Alpha Phase
+```
+
+## nix install
+```console
+$ git clone git@github.com:NelsonJeppesen/soma.git
+$ cd some
+$ nix-env -i -f default.nix
+```
+
+## help
 ```console
 $ soma--help
-soma v0.4.0
+soma v0.4.3
 
 Usage:
   soma [options] [fuzzy filter]
@@ -59,18 +67,6 @@ Options:
   -c, --no-color                  disable color
   -v, --version                   print version
   -d, --debug                     enable debug mode
-```
-
-### Listen to Groove Salad:
-```console
-$ somafm listen groovesalad
-22:27:30 | Mindex - Jagga-jah
-```
-
-### Listen to Groove Salad at highest quality:
-```console
-$ somafm listen groovesalad --quality=highest
-22:27:30 | Mindex - Jagga-jah
 ```
 
 ## License
