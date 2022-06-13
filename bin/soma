@@ -15,8 +15,9 @@
 set -o nounset
 
 # script details
-VERSION='0.4.1'
-SCRIPT_NAME=$(basename "$0")
+a=(${0//\// })
+SCRIPT_NAME=${a[${#a[@]}-1]}
+VERSION='0.4.2'
 
 # defaults and magic vars
 B="\033[3m\033[1m"  # bold
