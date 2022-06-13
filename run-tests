@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+echo '-------- building docker test container'
+docker build -f tests/Dockerfile . -t test
+
+echo '----------------------------'
+echo 'build complete; runnig tests'
+echo '----------------------------'
+
+echo '-------- running shellcheck linter'
+shellcheck bin/soma
+
+echo '-------- ensure bogus query returns no channel'
+docker run -t test expect /soma/tests/no_matches_found.expect
+
+echo '-------- ensure trance station plays with color text'
+docker run -t test expect /soma/tests/trance_color.expect
+
+echo '-------- ensure trance station plays with colorless text'
+docker run -t test expect /soma/tests/trance_no_color.expect
+
+echo '-------- ensure trance station plays with debug text'
+docker run -t test expect /soma/tests/trance_debug.expect
+
+echo '-------- ensure version is printed with --version flag'
+docker run -t test expect /soma/tests/version.expect
+
+echo '-------- ensure version is printed with -v flag'
+docker run -t test expect /soma/tests/version_short.expect
+
+echo '==================== tests complete ===================='

@@ -1,0 +1,11 @@
+set timeout 5
+spawn soma trance --debug
+match_max 100000
+expect -- "\[debug\]" {
+  expect -- "playlist: https://api.somafm.com/thetrip64.pls" {
+    send_user "test passed\n"
+    exit 0
+  }
+}
+send_user "test failed\n"
+exit 1
