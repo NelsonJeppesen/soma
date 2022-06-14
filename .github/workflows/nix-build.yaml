@@ -1,17 +1,11 @@
-name: "soma-tests"
+name: "run-tests"
 on:
   push:
 jobs:
-  soma-test:
+  run-tests:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1.2.0
 
     # use docker to get around the lack for TTY for fzf and mpv
-    - run: docker build . -t test
-
-    - run: docker run -t test expect /soma/tests/no_matches_found.expect
-    - run: docker run -t test expect /soma/tests/trance_color.expect
-    - run: docker run -t test expect /soma/tests/trance_no_color.expect
-    - run: docker run -t test expect /soma/tests/version.expect
-    - run: docker run -t test expect /soma/tests/version_short.expect
+    - run: ./run-tests
