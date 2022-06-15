@@ -5,7 +5,6 @@
 #   listen to somafm from the terminal
 #
 #  requirements:
-#     awk
 #     bash
 #     curl
 #     jq
@@ -14,15 +13,13 @@
 # exit when script uses undeclared variables
 set -o nounset
 
-# script details
-a=("${0//\// }")
-SCRIPT_NAME="${a[${#a[@]}-1]}"
-SCRIPT_PATH="${0%/*}"
-VERSION='0.4.4'
+SCRIPT_NAME="${0##*"/"}"
+SCRIPT_PATH="${0%"${SCRIPT_NAME}"}"
+VERSION='0.4.5'
 
 # defaults and magic vars
-B="\033[3m\033[1m"  # bold
-N="\033[0m"         # normal
+B="\033[3m\033[1m" # bold
+N="\033[0m"        # normal
 COLOR0='35'
 COLOR1='34'
 COLOR2='36'
@@ -30,8 +27,6 @@ COLOR=true
 COLOR_RESET='0'
 DEBUG=false
 QUALITY='high'
-
-# fzf options that control the look and feel but not the operation of it
 
 # shorthand for echo with interpretation of backslash escapes
 function o() {
@@ -55,7 +50,7 @@ function color_code() {
 # parse the CLI arguments, in any order
 while [[ $# -gt 0 ]]; do
   case $1 in
-    -\?|-h|--help)
+    -\? | -h | --help)
       o "                                                                                "
       o "Usage:                                                                          "
       o "  ${SCRIPT_NAME} [options] [fuzzy filter]                                       "
@@ -82,7 +77,7 @@ while [[ $# -gt 0 ]]; do
       exit 0
       ;;
 
-    --version|-v)
+    --version | -v)
       o "${SCRIPT_NAME} version ${VERSION}"
       exit 0
       ;;
@@ -98,12 +93,12 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
 
-    --no-color|-c)
+    --no-color | -c)
       COLOR=false
       shift
       ;;
 
-    --debug|-d)
+    --debug | -d)
       DEBUG=true
       shift
       ;;
@@ -112,6 +107,7 @@ while [[ $# -gt 0 ]]; do
       # all cli options mot matched are passed to fzf as default query
       FZF_QUERY+=("$1")
       shift
+      ;;
   esac
 done
 
@@ -122,13 +118,13 @@ set -- "${FZF_QUERY[@]}"
 echo -e "${B}$(color_code ${COLOR1})${SCRIPT_NAME}${N}"
 
 # various debug settings to write to a file if --debug/-d is enabled
-debug 'debug enabled'     "${DEBUG}"
-debug "quality"           "${QUALITY}"
-debug "color enabled"     "${COLOR}"
-debug "fzf query"         "${FZF_QUERY[*]}"
-debug "color0"            "$(color_code ${COLOR0})########-----------$(color_code ${COLOR_RESET})"
-debug "color1"            "$(color_code ${COLOR1})########-----------$(color_code ${COLOR_RESET})"
-debug "color2"            "$(color_code ${COLOR2})########-----------$(color_code ${COLOR_RESET})"
+debug 'debug enabled' "${DEBUG}"
+debug "quality" "${QUALITY}"
+debug "color enabled" "${COLOR}"
+debug "fzf query" "${FZF_QUERY[*]}"
+debug "color0" "$(color_code ${COLOR0})########-----------$(color_code ${COLOR_RESET})"
+debug "color1" "$(color_code ${COLOR1})########-----------$(color_code ${COLOR_RESET})"
+debug "color2" "$(color_code ${COLOR2})########-----------$(color_code ${COLOR_RESET})"
 
 # pull somafm channel list with all the metadata. Used by fzf to slection the
 # to play with mpv
@@ -144,29 +140,29 @@ echo 'c to change channel'
 # bootstrap with exit code of 77 which is returned from mpv when "c" is pressed
 # to change the channel
 RET_CODE="77"
-while [[ $RET_CODE -eq "77" ]] ; do
+while [[ $RET_CODE -eq "77" ]]; do
   echo -e "$(color_code ${COLOR2})―――――――――――――――――――$(color_code ${COLOR_RESET})"
   RET_CODE="0"
 
   # show channels piped into fzf for fuzzy finding
   CHANNEL=$(
-    echo "${CHANNEL_LIST}"                               | \
-    jq -r '.channels|sort_by(.title|ascii_downcase)|.[]' | \
-    jq -r '.id+"\t"+.title+"\t"+.description'            | \
-    fzf                          \
-      -d '\t'                    \
-      -i                         \
-      --exact                    \
-      --exit-0                   \
-      --layout=reverse           \
-      --no-hscroll               \
-      --no-sort                  \
-      --pointer="※"              \
-      --prompt="soma ❯ "         \
-      --query="${FZF_QUERY[*]}"  \
-      --select-1                 \
-      --tabstop=26               \
-      --with-nth=2,3
+    echo "${CHANNEL_LIST}" |
+      jq -r '.channels|sort_by(.title|ascii_downcase)|.[]' |
+      jq -r '.id+"\t"+.title+"\t"+.description' |
+      fzf \
+        -d '\t' \
+        -i \
+        --exact \
+        --exit-0 \
+        --layout=reverse \
+        --no-hscroll \
+        --no-sort \
+        --pointer="※" \
+        --prompt="soma ❯ " \
+        --query="${FZF_QUERY[*]}" \
+        --select-1 \
+        --tabstop=26 \
+        --with-nth=2,3
   )
 
   # use bash substring replacement instead of cut and/or awk
@@ -176,9 +172,9 @@ while [[ $RET_CODE -eq "77" ]] ; do
 
   # match the channel id to the http endpoint
   playlist=$(
-    echo "${CHANNEL_LIST}" | \
-    jq -r ".channels|map(select(.id==\"${CHANNEL_COL_0}\")) | .[]" | \
-    jq -r ".playlists|map(select(.quality==\"${QUALITY}\")) | limit(1;.[]) | .url"
+    echo "${CHANNEL_LIST}" |
+      jq -r ".channels|map(select(.id==\"${CHANNEL_COL_0}\")) | .[]" |
+      jq -r ".playlists|map(select(.quality==\"${QUALITY}\")) | limit(1;.[]) | .url"
   )
 
   debug "playlist" "${playlist}"
@@ -191,9 +187,9 @@ while [[ $RET_CODE -eq "77" ]] ; do
 
     *)
       mpv \
-        --no-config                               \
-        --input-default-bindings=no               \
-        --msg-level=all=no,soma=status            \
+        --no-config \
+        --input-default-bindings=no \
+        --msg-level=all=no,soma=status \
         --script="${SCRIPT_PATH}/../lib/soma.lua" \
         --script-opts="soma-color=${COLOR},soma-color0=${COLOR0},soma-color1=${COLOR1},soma-color2=${COLOR2}" \
         "${playlist}"
