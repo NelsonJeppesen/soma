@@ -14,10 +14,8 @@
 # exit when script uses undeclared variables
 set -o nounset
 
-# script details
-a=("${0//\// }")
-SCRIPT_NAME="${a[${#a[@]}-1]}"
-SCRIPT_PATH="${0%/*}"
+SCRIPT_NAME="${0##*"/"}"
+SCRIPT_PATH="${0%"${SCRIPT_NAME}"}"
 VERSION='0.4.4'
 
 # defaults and magic vars
@@ -30,8 +28,6 @@ COLOR=true
 COLOR_RESET='0'
 DEBUG=false
 QUALITY='high'
-
-# fzf options that control the look and feel but not the operation of it
 
 # shorthand for echo with interpretation of backslash escapes
 function o() {
