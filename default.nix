@@ -3,14 +3,7 @@ with import <nixpkgs> { };
 stdenv.mkDerivation rec {
   name = "soma";
 
-  buildInputs = [
-    pkgs.makeWrapper
-    pkgs.bash
-    pkgs.curl
-    pkgs.fzf
-    pkgs.jq
-    pkgs.mpv
-  ];
+  buildInputs = [ pkgs.makeWrapper ];
 
   src = ./.;
 
